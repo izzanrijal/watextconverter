@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHATSAPP TEXT TO GOOGLE KEEP CONVERTER</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            zoom: 125%; /* Set default zoom to 125% */
+        }
+
+        .textBox {
+            width: 80%;
+            max-width: 500px;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            resize: vertical;
+            white-space: pre-wrap; /* To preserve white spaces and line breaks */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            padding: 5px 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .outputBox {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Set default font size to 10px */
+        }
+    </style>
+</head>
+<body>
+	<textarea id="inputBox" class="textBox" placeholder="Paste text here"></textarea>
+    <textarea id="outputBox" class="textBox outputBox" placeholder="Formatted text will appear here" readonly></textarea>
+    <div class="button-container">
+        <button class="button" id="convertButton">Convert</button>
+        <button class="button" id="copyButton">Copy All</button>
+    </div>
+
+    <script>
+        document.getElementById('convertButton').addEventListener('click', function() {
+            var inputText = document.getElementById("inputBox").value;
+            var formattedText = convertText(inputText);
+            document.getElementById("outputBox").value = formattedText;
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            var outputText = document.getElementById("outputBox");
+            outputText.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard');
+        });
+
+        function convertText(text) {
+            // Use a regular expression to replace standalone * with - while ignoring *enclosed_text*
+            return text.replace(/(\*[^*\n]*\*)|(\*)/g, (match, p1, p2) => p1 ? p1 : '-');
+        }
+    </script>
+</body>
+</html>
